@@ -8,9 +8,13 @@
     const canvasWrapper = ref(null);
     defineExpose({ canvasWrapper });
 
-    const setup = reactive({
-        inputBase:JSON.stringify(defaultBase, null, 2)
-    })
+    const input = reactive({
+        base:JSON.stringify(defaultBase, null, 2)
+    });
+
+    const output = reactive({
+        base:input.base
+    });
 
     const scene = new THREE.Scene();
 
@@ -22,18 +26,20 @@
     const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 50000);
     camera.position.z = 12;
 
-    const base = new Base().fromJson(setup.inputBase);
+    const base = new Base().fromJson(output.base);
 
-    watch(() => setup.inputBase, () => {
+    watch(() => input.base, () => {
+        output.base = input.base;
+    });
+
+    watch(() => output.base, () => {
         base.clear();
 
         try{
-            base.fromJson(setup.inputBase);
+            base.fromJson(output.base);
         }catch(e){
             console.log(e)
         }
-
-        //console.log(base);
 
         render();
     })
@@ -79,7 +85,18 @@
 <template>
     <div class="flex">
         <div class="item-grow">
-            <base-input v-model="setup.inputBase" type="textarea">Input Base</base-input>
+            <div>
+                <h2>Input</h2>
+
+                <base-input v-model="input.base" type="textarea">Base</base-input>
+            </div>
+
+            <hr>
+
+            <div>
+                <h2>Output</h2>
+                <base-input v-model="input.base" type="textarea">Base</base-input>
+            </div>
         </div>
 
         <div class="item-grow padding">

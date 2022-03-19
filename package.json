@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "camel-to-kebab": "^1.1.0",
+    "lodash": "^4.17.21",
     "three": "^0.138.3",
     "vue": "^3.2.25",
     "vue-router": "^4.0.14"

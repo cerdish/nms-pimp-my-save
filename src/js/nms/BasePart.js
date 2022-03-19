@@ -8,7 +8,7 @@ class BasePart extends THREE.Mesh{
     At = [0,0,1];
     UserData = 0;
     at = new THREE.Vector3()
-    isNmsBasePart = true;
+    isBasePart = true;
 
     constructor(ObjectID, position, up, at){        
         let geometry = basePartIndex.getGeometry(ObjectID);

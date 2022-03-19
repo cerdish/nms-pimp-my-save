@@ -35,7 +35,6 @@
 <style>
     .input-wrapper{
         margin:var(--default-gap);
-        max-width:650px;
         display:flex;
         overflow:hidden;
         flex-shrink:0;

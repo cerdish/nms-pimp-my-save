@@ -49,12 +49,11 @@ class BasePart extends THREE.Mesh{
 
         if(basePartIndex.getIsWire(ObjectID)){
             this.scale.set(1, 1, this.at.length());
-
-            console.log(this.At);
+        }else{
+            this.attach(new THREE.ArrowHelper(this.up.clone().normalize(), this.position.clone(), 2));
+            this.attach(new THREE.ArrowHelper(this.at.clone().normalize(), this.position.clone(), 2));
         }
 
-        this.attach(new THREE.ArrowHelper(this.up.clone().normalize(), this.position.clone(), 5));
-        this.attach(new THREE.ArrowHelper(this.at.clone().normalize(), this.position.clone(), 5));
     }
 
     fromJson(json){

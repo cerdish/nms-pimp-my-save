@@ -3,15 +3,14 @@
     import * as THREE from 'three';
     import { ref, onMounted, computed, watch, reactive } from 'vue';
     import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls'
+    import defaultBase from '@/js/nms/defaultBase.json';
 
     const canvasWrapper = ref(null);
     defineExpose({ canvasWrapper });
 
     const setup = reactive({
-        inputBase:""
+        inputBase:JSON.stringify(defaultBase, null, 2)
     })
-
-    console.log(setup.inputBase)
 
     const _inputBase = computed(() => {
         try{
@@ -31,7 +30,7 @@
     const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 50000);
     camera.position.z = 12;
 
-    const base = new Base();
+    const base = new Base().fromJson(setup.inputBase);
 
     watch(() => setup.inputBase, () => {
         base.clear();

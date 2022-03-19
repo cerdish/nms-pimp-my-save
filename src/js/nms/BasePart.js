@@ -9,7 +9,7 @@ class BasePart extends THREE.Mesh{
     UserData = 0;
     at = new THREE.Vector3()
 
-    constructor(ObjectID, position, up, at){
+    constructor(ObjectID, position, up, at){        
         let geometry = basePartIndex.getGeometry(ObjectID);
         
         let meshOffset = basePartIndex.getMeshOffset(ObjectID);
@@ -24,6 +24,8 @@ class BasePart extends THREE.Mesh{
 
         this.castShadow = true;
         this.receiveShadow = true;
+
+        if(ObjectID) this.ObjectID = ObjectID;
 
         if(position){
             this.Position = position;

@@ -20,8 +20,24 @@ const index = {
         dimensions:[floorWidth, 0.275 / 2, floorWidth],
         meshOffset:[0, 0.275 / 4, 0]
     },
+    "^F_ROOF5":{
+        dimensions:[floorWidth, wallHeight / 4, floorWidth],
+        meshOffset:[0, wallHeight / 8, 0]
+    },
+    "^T_FLOOR_Q":{
+        dimensions:[floorWidth / 2, 0.275 / 2, floorWidth / 2],
+        meshOffset:[0, 0.275 / 4, 0]
+    },
     "^T_WALL":{
         dimensions:[floorWidth, wallHeight, 0.275 / 2],
+        meshOffset:[0, wallHeight / 2, 0]
+    },
+    "^T_WALL_H":{
+        dimensions:[floorWidth / 2, wallHeight, 0.275 / 2],
+        meshOffset:[0, wallHeight / 2, 0]
+    },
+    "^T_RAMP_H":{
+        dimensions:[floorWidth / 2, wallHeight, floorWidth],
         meshOffset:[0, wallHeight / 2, 0]
     },
     "^T_WALL_Q":{
@@ -67,6 +83,11 @@ const index = {
     }
 };
 
+index["^T_GFLOOR"] = index["^T_FLOOR"]
+index["^T_WALL_WIN3"] = index["^T_WALL"]
+index["^T_DOOR_H"] = index["^T_WALL_H"]
+index["^BUILD_REFINER2"] = index["^U_MINIPORTAL"]
+
 function getDimensions(ObjectID){
     return getVar(ObjectID, "dimensions", [floorWidth, wallHeight, floorWidth]);
 }
@@ -94,7 +115,9 @@ function getIsWire(ObjectID){
 }
 
 function getVar(ObjectID, key, _default){
-    if(index[ObjectID] && index[ObjectID][key]) return index[ObjectID][key];
+    if(ObjectID && !index[ObjectID]) console.log("missing part", ObjectID);
+
+    if(ObjectID && index[ObjectID] && index[ObjectID][key]) return index[ObjectID][key];
 
     return _default;
 }

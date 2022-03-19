@@ -88,7 +88,7 @@
             <base-input v-model="setup.inputBase" type="textarea">Input Base</base-input>
         </div>
 
-        <div class="item-grow">
+        <div class="item-grow padding">
             <div ref="canvasWrapper"></div>
         </div>
     </div>

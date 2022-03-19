@@ -12,14 +12,6 @@
         inputBase:JSON.stringify(defaultBase, null, 2)
     })
 
-    const _inputBase = computed(() => {
-        try{
-            return JSON.parse(setup.inputBase);
-        }catch(e){
-            return {};
-        }
-    })
-
     const scene = new THREE.Scene();
 
     const renderer = new THREE.WebGLRenderer({});
@@ -73,6 +65,8 @@
         let fillLight = new THREE.DirectionalLight(0x0000ff, 0.5);
         fillLight.position.set(-200, -200, -200);
         scene.add(fillLight);
+
+        scene.add(new THREE.GridHelper(100, 10));
 
         render();
     })

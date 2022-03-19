@@ -75,8 +75,16 @@ button:disabled{
 .flex > .item-grow{
     flex:1 1 100%;
 }
-.item-shrink{
+.flex > .item-shrink{
     flex:0 1 0%;
+}
+
+.flex > .c4 {
+    flex:1 1 33.33%;
+}
+
+.flex > .c8 {
+    flex:1 1 66.66%;
 }
 
 .smaller .margin, .smaller button{
@@ -140,3 +148,7 @@ button:disabled{
 }
 
 .material-icons { font-size: inherit; }
+
+.fill-height{
+    height:100%;
+}

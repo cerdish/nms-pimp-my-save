@@ -5,7 +5,9 @@
         modelValue:{
             default:""
         },
-        inputWidth:{}
+        inputWidth:{},
+        labelWidth:{},
+        stacked:{}
     })
 
     const emit = defineEmits(['update:modelValue'])
@@ -14,8 +16,8 @@
 </script>
 
 <template>
-    <div class="input-wrapper">
-        <label :for="$attrs.id || id" v-if="$slots.default">
+    <div class="input-wrapper" :class="{stacked: stacked}">
+        <label :for="$attrs.id || id" v-if="$slots.default" :style="'width:' + labelWidth">
             <slot></slot>
         </label>
 
@@ -33,11 +35,18 @@
 </template>
 
 <style>
-    .input-wrapper{
+    .input-wrapper:not(.stacked){
         margin:var(--default-gap);
         display:flex;
         overflow:hidden;
         flex-shrink:0;
+    }
+    .input-wrapper.stacked{
+        margin:var(--default-gap);
+    }
+    .input-wrapper.stacked > label{
+        padding:var(--default-gap) 0;
+        display:block;
     }
     .input-wrapper > label{
         width:200px;

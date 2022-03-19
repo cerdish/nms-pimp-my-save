@@ -21,7 +21,6 @@
     const renderer = new THREE.WebGLRenderer({});
     renderer.shadowMap.enabled = true;
     //renderer.shadowMap.type = THREE.PCFSoftShadowMap; 
-    renderer.setSize(600,600);
     
     const camera = new THREE.PerspectiveCamera(75, 600 / 600, 0.1, 50000);
     camera.position.z = 12;
@@ -45,6 +44,23 @@
     })
 
     onMounted(() => {
+        const resizeObserver = new ResizeObserver(entries => {
+            for (let entry of entries) {
+                console.log(entry);
+
+                renderer.setSize(entry.target.clientWidth, entry.target.clientHeight);
+
+                camera.aspect = entry.target.clientWidth / entry.target.clientHeight;
+                camera.updateProjectionMatrix();
+
+                render();
+            }
+        });
+
+        resizeObserver.observe(canvasWrapper.value);
+
+        renderer.setSize(canvasWrapper.value.clientWidth, canvasWrapper.value.clientHeight);
+
         canvasWrapper.value.appendChild(renderer.domElement);
 
         const controls = new OrbitControls(camera, renderer.domElement);
@@ -53,23 +69,23 @@
         scene.add(base);
 
         var keyLight = new THREE.DirectionalLight(0xffffff);
-        keyLight.position.set(200, 200, 200);
+        keyLight.position.set(2000, 2000, 2000);
         keyLight.castShadow = true;
 
-        keyLight.shadow.mapSize.width = 1024;
-        keyLight.shadow.mapSize.height = 1024;
+        keyLight.shadow.mapSize.width = 1024 * 8;
+        keyLight.shadow.mapSize.height = 1024 * 8;
 
-        keyLight.shadow.camera.left = -10;
-        keyLight.shadow.camera.bottom = -10;
-        keyLight.shadow.camera.right = 10;
-        keyLight.shadow.camera.top = 10;
+        keyLight.shadow.camera.left = -300;
+        keyLight.shadow.camera.bottom = -300;
+        keyLight.shadow.camera.right = 300;
+        keyLight.shadow.camera.top = 300;
 
         keyLight.shadow.camera.far = 5000;
 
         scene.add(keyLight);
 
         let fillLight = new THREE.DirectionalLight(0x0000ff, 0.5);
-        fillLight.position.set(-200, -200, -200);
+        fillLight.position.set(-2000, -2000, -2000);
         scene.add(fillLight);
 
         scene.add(new THREE.GridHelper(100, 10));
@@ -83,24 +99,32 @@
 </script>
 
 <template>
-    <div class="flex">
-        <div class="item-grow">
+    <div class="flex fill-height">
+        <div class="c4">
             <div>
                 <h2>Input</h2>
 
-                <base-input v-model="input.base" type="textarea">Base</base-input>
+                <base-input :stacked="true" v-model="input.base" type="textarea">Base</base-input>
             </div>
 
             <hr>
 
             <div>
                 <h2>Output</h2>
-                <base-input v-model="input.base" type="textarea">Base</base-input>
+                <base-input :stacked="true" v-model="output.base" type="textarea">Base</base-input>
             </div>
         </div>
 
-        <div class="item-grow padding">
-            <div ref="canvasWrapper"></div>
+        <div class="margin fill-height c8" style="position:relative;">
+            <div ref="canvasWrapper" id="cavas-wrapper"></div>
         </div>
     </div>
 </template>
+
+<style>
+    #cavas-wrapper{
+        position:absolute;
+        height:100%;
+        width:100%;
+    }
+</style>

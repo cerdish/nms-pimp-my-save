@@ -50,12 +50,12 @@ const index = {
         isWire:true
     },
     "^U_PORTALLINE":{
-        dimensions:[0.3, 0.3, 0.3],
+        dimensions:[0.3, 0.3, 1],
         meshOffset:[0, 0, 0.5],
         isWire:true
     },
     "^U_PIPELINE":{
-        dimensions:[0.3, 0.3, 0.3],
+        dimensions:[0.3, 0.3, 1],
         meshOffset:[0, 0, 0.5],
         isWire:true
     },
@@ -80,11 +80,45 @@ const index = {
         dimensions:[floorWidth * 1.5, wallHeight / 4, floorWidth * 1.5],
         meshOffset:[0, wallHeight / 8, 0],
         geometry:new THREE.CylinderGeometry( floorWidth * 1.5 / 2, floorWidth * 1.5 / 2, wallHeight / 4, 32 )
+    },
+    "^BUILDDOOR_WATER":{
+        dimensions:[floorWidth / 2, wallHeight / 4, floorWidth / 2],
+        meshOffset:[0, wallHeight / 8, 0],
+        geometry:new THREE.CylinderGeometry( floorWidth / 4, floorWidth / 4, wallHeight / 4, 32 )
+    },
+    "^CUBEFRAME":{
+        dimensions:[4, 4, 4],
+        meshOffset:[0, 2, 0]
+    },
+    "^BUILDTERMINAL":{
+        dimensions:[floorWidth, wallHeight / 2, floorWidth / 2],
+        meshOffset:[0, wallHeight / 4, 0]
+    },
+    "^S_RUG0":{
+        dimensions:[floorWidth, 0.1, floorWidth * 2]
+    },
+    "^BASE_LAVA3":{
+        dimensions:[floorWidth / 2, wallHeight / 2, floorWidth / 4],
+        meshOffset:[0, wallHeight / 4, 0]
+    },
+    "^BUILDSOFA":{
+        dimensions:[floorWidth - 2, wallHeight / 4, floorWidth / 4],
+        meshOffset:[0, wallHeight / 8, 0]
+    },
+    "^BUILDLANDINGPAD":{
+        dimensions:[floorWidth * 5, 0.1, wallHeight / 4, floorWidth * 5],
+        meshOffset:[0, wallHeight / 8, 0]
+    },
+    "^BASE_TREE02":{
+        dimensions:[floorWidth / 16, 0.1, wallHeight * 3, floorWidth / 16],
+        meshOffset:[0, wallHeight * 1.5, 0],
+        geometry:new THREE.CylinderGeometry( floorWidth / 16, floorWidth / 16, wallHeight * 3, 32 )
     }
 };
 
 index["^T_GFLOOR"] = index["^T_FLOOR"]
 index["^T_WALL_WIN3"] = index["^T_WALL"]
+index["^T_DOOR"] = index["^T_WALL"]
 index["^T_DOOR_H"] = index["^T_WALL_H"]
 index["^BUILD_REFINER2"] = index["^U_MINIPORTAL"]
 

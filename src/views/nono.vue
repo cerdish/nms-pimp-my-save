@@ -70,19 +70,13 @@
 
             let starterBase = JSON.parse(JSON.stringify(defaultBase));
 
-            starterBase.GalacticAddress = universeAddressToHex(saveData.PlayerStateData.UniverseAddress);
-            starterBase.Name = "Teleport here";
-
             let base = new Base();
-            let teleporter = base.createPart("^TELEPORTER");
-            teleporter.position.set(0, 0, 5.33333);
 
-            let floor = base.createPart("^T_FLOOR");
-            floor.position.set(0, 0, 10.66666);
-            floor.at.set(0,0,4);
-            floor.up.set(0,0,4);
+            starterBase.GalacticAddress = universeAddressToHex(saveData.PlayerStateData.UniverseAddress);
+            starterBase.Name = "Starting Planet";
 
-            base.addParts([base.createPart("^BASE_FLAG"), floor, teleporter]);
+            let baseComputer = base.createPart("^BASE_FLAG");
+            baseComputer.position.set(1, 1, 1);
 
             starterBase.Objects = JSON.parse(base.toJson()).Objects
             
@@ -101,6 +95,31 @@
 
 <template>
     <div>
+        <div>
+            <h2>
+                The No No No Challenges
+                <div class="smaller">A new way to start a save in No Man's Sky</div>
+            </h2>
+
+            <p>
+                Start your next No Man's Sky playthrough truely alone, in a random system, in a random galaxy, with nothing but your senses to guide you. To begin, make your way to the station teleporter and teleport to "Starting Planet".
+            </p>
+
+            <ul>
+                <li>
+                    No Multitool - You will have to punch your way to the riches, or get lucky and be gifted your very first multitool.
+                </li>
+
+                <li>
+                    No Ship - Starting without any ship at all means you will have to find your own crashed ship, or save up and buy one.
+                </li>
+
+                <li>
+                    No Story - There will be no story mission,  and no tutorial missions to help guide you. All reciepies, technology, and resources will have to be earned through regular gameplay mechanics.
+                </li>
+            </ul>
+        </div>
+
         <form @submit.prevent="createSave()">
             <base-checkbox v-model="input.noShip">No Ship</base-checkbox>
             <base-checkbox v-model="input.noMultitool">No Multitool</base-checkbox>

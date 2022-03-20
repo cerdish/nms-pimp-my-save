@@ -42,11 +42,13 @@ class BasePart extends THREE.Mesh{
 
         if(at){
             this.At = at;
+
+            console.log("at found",at)
             
             let lookAtObj = new THREE.Object3D();
             lookAtObj.position.fromArray(this.position.toArray());
             
-            lookAtObj.translateOnAxis(this.at, 1);
+            lookAtObj.translateOnAxis(new THREE.Vector3().fromArray(at), 1);
             
             this.lookAt(lookAtObj.position);
         }

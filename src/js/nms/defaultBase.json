@@ -1,16 +1,16 @@
 {
     "BaseVersion": 5,
     "OriginalBaseVersion": 5,
-    "GalacticAddress": "",
+    "GalacticAddress": "0x30E900F35CAC63",
     "Position": [
-      -32241.75,
-      5868.7890625,
-      92921.09375
+      0,
+      66700,
+      0
     ],
     "Forward": [
-      -0.4453323185443878,
-      0.8705100417137146,
-      -0.20950208604335785
+      0,
+      0,
+      1
     ],
     "UserData": 0,
     "LastUpdateTimestamp": 1647319458,

@@ -17,7 +17,9 @@
         <div class="page">
             <div class="side-nav" v-if="showMenu">
                 <router-link to="/">Home</router-link>
+                <router-link to="/nono">No No Challenges</router-link>
                 <router-link to="/baseCreator">Base Creator 9000</router-link>
+                <router-link to="/tester">tester</router-link>
             </div>
 
             <div class="content padding">

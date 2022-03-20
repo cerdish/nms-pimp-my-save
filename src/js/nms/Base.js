@@ -14,10 +14,22 @@ class Base extends THREE.Group{
         inputBase.Objects.forEach(function(o){
             let part = new BasePart().fromJson(JSON.stringify(o));
 
-            self.add(part);
+            self.attach(part);
         });
 
         return this;
+    }
+
+    addParts(parts){
+        var self = this;
+
+        parts.forEach(function(o){
+            self.attach(o);
+        });
+    }
+
+    createPart(ObjectID){
+        return new BasePart(ObjectID);
     }
 
     getBaseParts(ObjectID, objects){
@@ -45,13 +57,14 @@ class Base extends THREE.Group{
             Objects: this.getBaseParts()
         };
 
-        base.Objects = base.Objects.map(function(p){
+        base.Objects = base.Objects.map(function(p, i){
             return {
                 ObjectID: p.ObjectID,
                 Position: p.position.toArray(),
                 Up: p.up.toArray(),
                 At: p.at.toArray(),
-                UserData: p.UserData
+                UserData: p.UserData,
+                Timestamp: Math.round(new Date() / 1000) - i
             }
         })
 

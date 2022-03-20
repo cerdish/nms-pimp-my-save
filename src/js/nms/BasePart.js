@@ -30,25 +30,28 @@ class BasePart extends THREE.Mesh{
 
         if(position){
             this.Position = position;
-            this.position.fromArray(position);
         }
+
+        this.position.fromArray(this.Position);
         
         if(up){
             this.Up = up;
-            this.up.fromArray(up);
         }
+
+        this.up.fromArray(this.Up);
 
         if(at){
             this.At = at;
-            this.at.fromArray(at);
-
+            
             let lookAtObj = new THREE.Object3D();
             lookAtObj.position.fromArray(this.position.toArray());
-
+            
             lookAtObj.translateOnAxis(this.at, 1);
-
+            
             this.lookAt(lookAtObj.position);
         }
+
+        this.at.fromArray(this.At);
         
         let scale = this.at.length();
 

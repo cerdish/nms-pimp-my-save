@@ -98,24 +98,23 @@
         <div>
             <h2>
                 The No No No Challenges
-                <div class="smaller">A new way to start a save in No Man's Sky</div>
             </h2>
 
             <p>
-                Start your next No Man's Sky playthrough truely alone, in a random system, in a random galaxy, with nothing but your senses to guide you. To begin, make your way to the station teleporter and teleport to "Starting Planet".
+                Start your next No Man's Sky playthrough in a random galaxy with nothing but your senses to guide you. To begin, make your way to the station teleporter and teleport to "Starting Planet".
             </p>
 
             <ul>
                 <li>
-                    No Multitool - You will have to punch your way to the riches, or get lucky and be gifted your very first multitool.
+                    No Multitool - You will have to search the planet for generous entities, or punch your way to riches. Can you even gather enough resources to stay alive?
                 </li>
 
                 <li>
-                    No Ship - Starting without any ship at all means you will have to find your own crashed ship, or save up and buy one.
+                    No Ship - There's no ship waiting to take you to the starts. You are going to have find one or buy one, so get that multitool and start scanning.
                 </li>
 
                 <li>
-                    No Story - There will be no story mission,  and no tutorial missions to help guide you. All reciepies, technology, and resources will have to be earned through regular gameplay mechanics.
+                    No Story - All game mechanics are unlocked, but story missions or tutorials will be available. Only your knownledge of standard game mechanics can advance your character.
                 </li>
             </ul>
         </div>

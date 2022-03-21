@@ -1,46 +1,21 @@
 <script setup>
     import { ref } from 'vue';
-    import defaultShip from '@/js/nms/blankShip.json';
-    import defaultMultiTool from '@/js/nms/blankMultitool.json';
-    import * as _ from 'lodash';
+    import {randUniverseAddress, universeAddressToHex, hexToUniverseAddress} from '@/js/nms/utils.js';
 
     const input = ref("");
 
     const output = ref("");
 
     const transform = ()=> {
-        let saveData = {};
+        let ua = randUniverseAddress();
 
-        try{
-            saveData = JSON.parse(input.value);
+        input.value = JSON.stringify(ua);
 
-            saveData.PlayerStateData.MissionProgress.forEach(function(m){
-                m.Progress = 999;
-            })
+        let hex = universeAddressToHex(ua);
 
-            saveData.PlayerStateData.CurrentMissionID = "^";
-            saveData.PlayerStateData.RevealBlackHoles = true;
-            saveData.PlayerStateData.HasAccessToNexus = true;
-            saveData.PlayerStateData.MissionRecurrences = [];
+        console.log(hex)
 
-            saveData.PlayerStateData.HoloExplorerInteraction.value = 999;
-            saveData.PlayerStateData.HoloScepticInteraction.value = 999;
-            saveData.PlayerStateData.HoloNooneInteraction.value = 999;
-
-            saveData.PlayerStateData.Multitools[0] = defaultMultiTool;
-            saveData.PlayerStateData.Inventory.Slots = [];
-            saveData.PlayerStateData.Inventory_Cargo.Slots = [];
-            saveData.PlayerStateData.WeaponInventory.Slots = [];
-            saveData.PlayerStateData.ShipInventory.Slots = [];
-            saveData.PlayerStateData.ShipOwnership[0] = defaultShip;
-            
-        }catch(e){
-            console.log(e);
-
-            saveData = e.message;
-        }
-
-        output.value = JSON.stringify(saveData, null, 2);
+        output.value = JSON.stringify(hexToUniverseAddress(hex));
     }
 </script>
 

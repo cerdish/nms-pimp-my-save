@@ -58,14 +58,7 @@ class Base extends THREE.Group{
         };
 
         base.Objects = base.Objects.map(function(p, i){
-            return {
-                ObjectID: p.ObjectID,
-                Position: p.position.toArray(),
-                Up: p.up.toArray(),
-                At: p.at.toArray(),
-                UserData: p.UserData,
-                Timestamp: Math.round(new Date() / 1000) - i
-            }
+            return p.toJson()
         })
 
         return JSON.stringify(base);

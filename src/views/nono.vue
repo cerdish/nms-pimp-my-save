@@ -29,8 +29,6 @@
                 let global_stats = _.find(saveData.PlayerStateData.Stats, {GroupId: "^GLOBAL_STATS"});
                 let see_station = _.find(global_stats.Stats, {Id: "^STATION_MARKER"});
 
-                console.log(see_station)
-
                 see_station.Value.IntValue = 1;
 
                 saveData.PlayerStateData.CurrentMissionID = "^";

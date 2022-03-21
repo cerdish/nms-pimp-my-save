@@ -75,6 +75,17 @@ class BasePart extends THREE.Mesh{
 
         return clone;
     }
+
+    toJson(){
+        return  {
+            ObjectID: this.ObjectID,
+            Position: this.position.toArray(),
+            Up: this.up.toArray(),
+            At: this.at.toArray(),
+            UserData: this.UserData,
+            Timestamp: Math.round(new Date() / 1000) - i
+        }
+    }
 };
 
 export default BasePart;

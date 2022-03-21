@@ -61,7 +61,23 @@
                 saveData.PlayerStateData.WeaponInventory.Slots = [];
             }
 
-            saveData.PlayerStateData.Inventory.Slots = [];
+            saveData.PlayerStateData.Inventory.Slots = [
+                {
+                    "Type":{
+                        "InventoryType":"Product"
+                    },
+                    "Id":"^BUILDSAVE",
+                    "Amount":1,
+                    "MaxAmount":1,
+                    "DamageFactor":0.0,
+                    "FullyInstalled":true,
+                    "Index":{
+                        "X":0,
+                        "Y":0
+                    }
+                }
+            ];
+
             saveData.PlayerStateData.Inventory_Cargo.Slots = [];
 
             saveData.PlayerStateData.UniverseAddress = randUniverseAddress();
@@ -78,6 +94,8 @@
 
             let baseComputer = base.createPart("^BASE_FLAG");
             baseComputer.position.set(1, 1, 1);
+
+            base.addParts([ baseComputer ]);
 
             starterBase.Objects = JSON.parse(base.toJson()).Objects
             

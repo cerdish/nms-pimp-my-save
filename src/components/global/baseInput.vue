@@ -48,7 +48,7 @@
         padding:var(--default-gap) 0;
         display:block;
     }
-    .input-wrapper > label{
+    .input-wrapper:not(.stacked) > label{
         width:200px;
         flex-shrink:0;
         padding-right:var(--default-gap);

@@ -100,7 +100,7 @@
 
 <template>
     <div class="flex fill-height">
-        <div class="c4">
+        <div class="c4 margin">
             <div>
                 <h2>Input</h2>
 

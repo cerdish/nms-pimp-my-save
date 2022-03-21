@@ -94,7 +94,7 @@
 </script>
 
 <template>
-    <div>
+    <div class="margin">
         <div>
             <h2>
                 The No No No Challenges

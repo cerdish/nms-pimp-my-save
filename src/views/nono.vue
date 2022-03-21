@@ -48,6 +48,7 @@
                 saveData.PlayerStateData.KnownProducts.push("^ANTIMATTER");
                 saveData.PlayerStateData.KnownProducts.push("^AM_HOUSING");
                 saveData.PlayerStateData.KnownProducts.push("^BASE_FLAG");
+                saveData.PlayerStateData.KnownProducts.push("^BUILDBEACON");
             }
 
             if(input.value.noShip){

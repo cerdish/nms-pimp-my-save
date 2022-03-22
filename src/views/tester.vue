@@ -1,21 +1,22 @@
 <script setup>
     import { ref } from 'vue';
     import {randUniverseAddress, universeAddressToHex, hexToUniverseAddress} from '@/js/nms/utils.js';
+    import Base from '@/js/nms/Base.js';
 
     const input = ref("");
 
     const output = ref("");
 
     const transform = ()=> {
-        let ua = randUniverseAddress();
+        let base = new Base();
 
-        input.value = JSON.stringify(ua);
+        let part = base.createPart("^T_FLOOR");
 
-        let hex = universeAddressToHex(ua);
+        let parts = part.cloneOnAxis(base.axies.z, 10, 5.33333);
 
-        console.log(hex)
+        base.addParts(parts);
 
-        output.value = JSON.stringify(hexToUniverseAddress(hex));
+        output.value = base.toJson();
     }
 </script>
 

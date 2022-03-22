@@ -18,7 +18,7 @@ const universeAddressToHex = (universeAddress)=> {
 
     if(y < 0) y = 256 + y;
     if(x < 0) x = 4096 + x;
-    if(z < 0) z = 4096 + x;
+    if(z < 0) z = 4096 + z;
 
     let hex = universeAddress.GalacticAddress.PlanetIndex.toString(16);
     hex += ("000" + universeAddress.GalacticAddress.SolarSystemIndex.toString(16)).slice(-3);

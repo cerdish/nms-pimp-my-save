@@ -1,19 +1,88 @@
 import * as THREE from 'three';
 import * as basePartIndex from '@/js/nms/basePartIndex.js';
 
-class BasePart extends THREE.Mesh{
+class BasePart extends THREE.Object3D{
     ObjectID = "x";
-    Position = [0,0,0];
-    Up = [0,1,0];
-    At = [0,0,1];
     UserData = 0;
-    at = new THREE.Vector3()
+    Timestamp = 1;
+    at = new THREE.Vector3(0,0,1);
     isBasePart = true;
 
-    constructor(ObjectID, position, up, at){        
-        let geometry = basePartIndex.getGeometry(ObjectID);
+    #mesh = null;
+
+    constructor(ObjectID, position, up, at){
+        super()
+
+        if(ObjectID){
+            this.setObjectID(ObjectID);
+        }else{
+            this.setObjectID("x");
+        }
+
+        if(position){
+            this.setPosition(position);
+        }
         
-        let meshOffset = basePartIndex.getMeshOffset(ObjectID);
+        if(up){
+            this.setUp(up);
+        }else{
+            this.setUp([0, 1, 0]);
+        }
+
+        if(at){
+            this.setAt(at);
+        }
+
+        let scale = this.at.length();
+
+        this.setScale(scale);
+    }
+
+    setPosition(position){
+        this.position.fromArray(position);
+
+        return this;
+    }
+
+    setScale(scale){
+        if(basePartIndex.getIsWire(this.ObjectID)){
+            this.scale.set(1, 1, scale);
+        }else{
+            this.scale.set(scale, scale, scale);
+        }
+
+        return this;
+    }
+
+    setUp(up){
+        this.up.fromArray(up);
+
+        return this; 
+    }
+
+    setAt(at){
+        let lookAtObj = new THREE.Object3D();
+        lookAtObj.position.fromArray(this.position.toArray());
+        
+        lookAtObj.translateOnAxis(new THREE.Vector3().fromArray(at), 1);
+        
+        this.lookAt(lookAtObj.position);
+
+        this.at.fromArray(at);
+    }
+
+    setObjectID(ObjectID){
+        this.ObjectID = ObjectID;
+
+        this.buildMesh();
+
+        return this;
+    }
+
+    buildMesh(){
+        let geometry = basePartIndex.getGeometry(this.ObjectID);
+        
+        let meshOffset = basePartIndex.getMeshOffset(this.ObjectID);
 
         if(meshOffset){
             geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(meshOffset[0], meshOffset[1], meshOffset[2]));
@@ -21,51 +90,21 @@ class BasePart extends THREE.Mesh{
 
         let material = new THREE.MeshStandardMaterial( { color: 0xDDEEFF } );
 
-        super(geometry, material);
+        this.#mesh = new THREE.Mesh(geometry, material);
 
-        this.castShadow = true;
-        this.receiveShadow = true;
+        this.#mesh.castShadow = true;
+        this.#mesh.receiveShadow = true;
 
-        if(ObjectID) this.ObjectID = ObjectID;
+        this.clear();
 
-        if(position){
-            this.Position = position;
-        }
+        this.attach(this.#mesh);
 
-        this.position.fromArray(this.Position);
-        
-        if(up){
-            this.Up = up;
-        }
-
-        this.up.fromArray(this.Up);
-
-        if(at){
-            this.At = at;
-
-            console.log("at found",at)
-            
-            let lookAtObj = new THREE.Object3D();
-            lookAtObj.position.fromArray(this.position.toArray());
-            
-            lookAtObj.translateOnAxis(new THREE.Vector3().fromArray(at), 1);
-            
-            this.lookAt(lookAtObj.position);
-        }
-
-        this.at.fromArray(this.At);
-        
-        let scale = this.at.length();
-
-        if(basePartIndex.getIsWire(ObjectID)){
-            this.scale.set(1, 1, scale);
-        }else{
-            this.scale.set(scale, scale, scale);
-
+        if(!basePartIndex.getIsWire(this.ObjectID)){
             this.attach(new THREE.ArrowHelper(this.up.clone().normalize(), this.position.clone(), 2));
             this.attach(new THREE.ArrowHelper(this.at.clone().normalize(), this.position.clone(), 2));
         }
 
+        return this;
     }
 
     fromJson(json){
@@ -83,8 +122,48 @@ class BasePart extends THREE.Mesh{
             Up: this.up.toArray(),
             At: this.at.toArray(),
             UserData: this.UserData,
-            Timestamp: Math.round(new Date() / 1000) - i
+            Timestamp: Math.round(new Date() / 1000) - (60*60*24)
         }
+    }
+
+    clone(ObjectID, position, up, at){
+        ObjectID = ObjectID || this.ObjectID;
+        position = position || this.position.toArray();
+        up = up || this.up.toArray();
+        at = at || this.at.toArray();
+
+        return new BasePart(ObjectID, position, up, at);
+    }
+
+    cloneOnAxis(axis, count, offset, totalOffset){
+        if(totalOffset) offset = totalOffset / count;
+
+        let clones = [];
+
+        for(let i = 0; i < count; i++){
+            let moveDistance = i * offset;
+
+            let clone = this.clone();
+            clone.translateOnAxis(axis, moveDistance);
+
+            clones.push(clone);
+        }
+
+        return clones;
+    }
+
+    cloneOnArc(axis, radius, count, arcDegrees, arcOffset, moveAxis){
+        moveAxis = moveAxis || this.at;
+        moveAxis = moveAxis.clone();
+
+        let clones = [];
+
+        let step = arcDegrees / count;
+
+        for(let i = 0; i < count; i++){
+        }
+
+        return clones
     }
 };
 

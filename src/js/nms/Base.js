@@ -3,6 +3,13 @@ import BasePart from '@/js/nms/BasePart.js';
 import * as _ from 'lodash';
 
 class Base extends THREE.Group{
+    axies = {
+        x: new THREE.Vector3(1, 0, 0),
+        y: new THREE.Vector3(0, 1, 0),
+        z: new THREE.Vector3(0, 0, 1),
+        position: new THREE.Vector3(0, 0, 0)
+    }
+
     constructor(base){
         super();
     }
@@ -61,7 +68,7 @@ class Base extends THREE.Group{
             return p.toJson()
         })
 
-        return JSON.stringify(base);
+        return JSON.stringify(base, null, 2);
     }
 };
 

@@ -3,7 +3,7 @@
     import * as THREE from 'three';
     import { ref, onMounted, computed, watch, reactive } from 'vue';
     import { OrbitControls } from '/node_modules/three/examples/jsm/controls/OrbitControls'
-    import defaultBase from '@/js/nms/defaultBase.json';
+    import defaultBase from '@/js/nms/data/defaultBase.json';
 
     const canvasWrapper = ref(null);
     defineExpose({ canvasWrapper });

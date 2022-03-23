@@ -1,0 +1,48 @@
+{
+    "BaseVersion": 5,
+    "OriginalBaseVersion": 5,
+    "GalacticAddress": "0x30E900F35CAC63",
+    "Position": [
+      0,
+      10000,
+      0
+    ],
+    "Forward": [
+      0,
+      0,
+      1
+    ],
+    "UserData": 0,
+    "LastUpdateTimestamp": 1647319458,
+    "Objects": [],
+    "RID": "",
+    "Owner": {
+      "LID": "0000000000000001",
+      "UID": "2533274805088109",
+      "USN": "drewcifer01",
+      "PTK": "XB",
+      "TS": 1646971554
+    },
+    "Name": "Mould 15k",
+    "BaseType": {
+      "PersistentBaseTypes": "HomePlanetBase"
+    },
+    "LastEditedById": "",
+    "LastEditedByUsername": "",
+    "ScreenshotAt": [
+      0.9399564862251282,
+      0.3273770213127136,
+      0.09646923840045929
+    ],
+    "ScreenshotPos": [
+      46.96875,
+      19.3671875,
+      4.8046875
+    ],
+    "GameMode": {
+      "PresetGameMode": "Unspecified"
+    },
+    "PlatformToken": "",
+    "IsReported": false,
+    "IsFeatured": false
+  }

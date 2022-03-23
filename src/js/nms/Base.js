@@ -10,6 +10,8 @@ class Base extends THREE.Group{
         position: new THREE.Vector3(0, 0, 0)
     }
 
+    #baseData = {};
+
     constructor(base){
         super();
     }
@@ -17,6 +19,8 @@ class Base extends THREE.Group{
     fromJson(json){
         let inputBase = JSON.parse(json);
         let self = this;
+
+        this.#baseData = inputBase;
 
         inputBase.Objects.forEach(function(o){
             let part = new BasePart().fromJson(JSON.stringify(o));
@@ -60,15 +64,26 @@ class Base extends THREE.Group{
     }
 
     toJson(){
-        let base = {
-            Objects: this.getBaseParts()
-        };
+        let base = this.#baseData;
+        let Objects = this.getBaseParts();
 
-        base.Objects = base.Objects.map(function(p, i){
+        base.Objects = Objects.map(function(p, i){
             return p.toJson()
-        })
+        });
 
         return JSON.stringify(base, null, 2);
+    }
+
+    setName(name){
+        this.#baseData.Name = name;
+
+        return this;
+    }
+
+    setGalacticAddress(ga){
+        this.#baseData.GalacticAddress = ga;
+
+        return this;
     }
 };
 

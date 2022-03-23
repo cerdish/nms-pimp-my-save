@@ -1,13 +1,12 @@
 <script setup>
     import { ref } from 'vue';
-    import defaultSave from '@/js/nms/defaultSave.json';
-    import blankShip from '@/js/nms/blankShip.json';
-    import blankMultiTool from '@/js/nms/blankMultitool.json';
-    import defaultBase from '@/js/nms/defaultBase.json';
+    import defaultSave from '@/js/nms/data/defaultSave.json';
+    import defaultBase from '@/js/nms/data/defaultBase.json';
     import * as _ from 'lodash';
     import {saveAs} from 'file-saver'
     import {randUniverseAddress, universeAddressToHex} from '@/js/nms/utils.js';
     import Base from '@/js/nms/Base.js';
+    import SaveFile from '@/js/nms/SaveFile.js';
 
     const input = ref({
         noShip:true,
@@ -16,95 +15,51 @@
     });
 
     const createSave = ()=> {
-        let saveData = {};
+        let save = new SaveFile(JSON.stringify(defaultSave));
 
-        try{
-            saveData = JSON.parse(JSON.stringify(defaultSave));
-
-            if(input.value.noStory){
-                saveData.PlayerStateData.MissionProgress.forEach(function(m){
-                    m.Progress = 999;
-                });
-
-                let global_stats = _.find(saveData.PlayerStateData.Stats, {GroupId: "^GLOBAL_STATS"});
-                let see_station = _.find(global_stats.Stats, {Id: "^STATION_MARKER"});
-
-                see_station.Value.IntValue = 1;
-
-                saveData.PlayerStateData.CurrentMissionID = "^";
-                saveData.PlayerStateData.RevealBlackHoles = true;
-                saveData.PlayerStateData.HasAccessToNexus = true;
-                saveData.PlayerStateData.MissionRecurrences = [];
-                saveData.PlayerStateData.FirstAtlasStationDiscovered = true;
-
-                saveData.PlayerStateData.HoloExplorerInteraction.value = 999;
-                saveData.PlayerStateData.HoloScepticInteraction.value = 999;
-                saveData.PlayerStateData.HoloNooneInteraction.value = 999;
-
-                saveData.PlayerStateData.KnownTech.push("^HYPERDRIVE");
-                saveData.PlayerStateData.KnownTech.push("^TERRAINEDITOR");
-                saveData.PlayerStateData.KnownProducts.push("^ANTIMATTER");
-                saveData.PlayerStateData.KnownProducts.push("^AM_HOUSING");
-                saveData.PlayerStateData.KnownProducts.push("^BASE_FLAG");
-                saveData.PlayerStateData.KnownProducts.push("^BUILDBEACON");
-            }
-
-            if(input.value.noShip){
-                saveData.PlayerStateData.ShipOwnership[0] = blankShip;
-                saveData.PlayerStateData.ShipInventory.Slots = [];
-            }
-
-            if(input.value.noMultitool){
-                saveData.PlayerStateData.Multitools[0] = blankMultiTool;
-                saveData.PlayerStateData.WeaponInventory.Slots = [];
-            }
-
-            saveData.PlayerStateData.Inventory.Slots = [
-                {
-                    "Type":{
-                        "InventoryType":"Product"
-                    },
-                    "Id":"^BUILDSAVE",
-                    "Amount":1,
-                    "MaxAmount":1,
-                    "DamageFactor":0.0,
-                    "FullyInstalled":true,
-                    "Index":{
-                        "X":0,
-                        "Y":0
-                    }
-                }
-            ];
-
-            saveData.PlayerStateData.Inventory_Cargo.Slots = [];
-
-            saveData.PlayerStateData.UniverseAddress = randUniverseAddress();
-            saveData.PlayerStateData.GameStartAddress1 = saveData.PlayerStateData.UniverseAddress;
-            saveData.PlayerStateData.GameStartAddress2 = saveData.PlayerStateData.UniverseAddress;
-            saveData.SpawnStateData.PlayerPositionInSystem = [];
-
-            let starterBase = JSON.parse(JSON.stringify(defaultBase));
-
-            let base = new Base();
-
-            starterBase.GalacticAddress = universeAddressToHex(saveData.PlayerStateData.UniverseAddress);
-            starterBase.Name = "Starting Planet";
-
-            let baseComputer = base.createPart("^BASE_FLAG");
-            baseComputer.position.set(1, 1, 1);
-
-            base.addParts([ baseComputer ]);
-
-            starterBase.Objects = JSON.parse(base.toJson()).Objects
-            
-            saveData.PlayerStateData.PersistentPlayerBases = [starterBase];
-        }catch(e){
-            console.log(e);
-
-            saveData = e.message;
+        if(input.value.noStory){
+            save.completeAllMissions();
         }
 
-        var blob = new Blob([JSON.stringify(saveData, null, 2)], {type: "application/json;charset=utf-8"});
+        if(input.value.noShip){
+            save.removeShips();
+        }
+
+        if(input.value.noMultitool){
+            save.removeMultitools();
+        }
+
+        save.clearInventor().randomizeLocation();
+
+        save.PlayerStateData.GameStartAddress1 = save.PlayerStateData.UniverseAddress;
+        save.PlayerStateData.GameStartAddress2 = save.PlayerStateData.UniverseAddress;
+
+        save.PlayerStateData.Inventory.Slots = [
+            {
+                "Type":{
+                    "InventoryType":"Product"
+                },
+                "Id":"^BUILDSAVE",
+                "Amount":1,
+                "MaxAmount":1,
+                "DamageFactor":0.0,
+                "FullyInstalled":true,
+                "Index":{
+                    "X":0,
+                    "Y":0
+                }
+            }
+        ];
+        
+        let base = new Base().fromJson(JSON.stringify(defaultBase)).clear();
+
+        base.setGalacticAddress(universeAddressToHex(save.PlayerStateData.UniverseAddress)).setName("Starting Planet");
+
+        base.addParts([base.createPart("^BASE_FLAG").setPosition([1, 1, 1])]);
+            
+        save.PlayerStateData.PersistentPlayerBases = [JSON.parse(base.toJson())];
+
+        var blob = new Blob([JSON.stringify(save, null, 2)], {type: "application/json;charset=utf-8"});
         
         saveAs(blob, "nonoSave" + Math.round(new Date() / 1000) + ".json");
     }

@@ -26,7 +26,7 @@
         }
 
         if(upgrades.value.ships){
-            save.expandShips();
+            save.expandShips().upgradeShipTech();
         }
 
         if(upgrades.value.exosuit){
@@ -34,19 +34,19 @@
         }
 
         if(upgrades.value.multitools){
-            save.expandMultitools();
+            save.expandMultitools().upgradeMultitoolTech();
         }
 
         if(upgrades.value.location) save.randomizeLocation();
 
-        for(let i = 4096 - 256; i < 4096; i++){
+        for(let i = -127; i < 128; i++){
             let ua = JSON.parse(JSON.stringify(save.PlayerStateData.UniverseAddress));
 
-            ua.RealityIndex = 256;
-            ua.GalacticAddress.SolarSystemIndex = i;
-            ua.GalacticAddress.VoxelX = 2048;
-            ua.GalacticAddress.VoxelY = 127;
-            ua.GalacticAddress.VoxelZ = 2048;
+            ua.RealityIndex = 0;
+            ua.GalacticAddress.SolarSystemIndex = 1;
+            ua.GalacticAddress.VoxelX = 1;
+            ua.GalacticAddress.VoxelY = i;
+            ua.GalacticAddress.VoxelZ = 1;
 
             save.addBase(ua, "base" + i);
 
@@ -79,6 +79,7 @@
             </p>
         </div>
         {{hexToUniverseAddress("0x1FFB0001001001")}}
+        {{hexToUniverseAddress("0x20B0000A5BFC7C")}}
 
         <form @submit.prevent="pimpMySave(inputJson)">
             <base-input v-model="inputJson" :stacked="true" type="textarea">Paste your save file JSON below</base-input>

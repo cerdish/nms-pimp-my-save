@@ -2,6 +2,10 @@ import * as _ from 'lodash';
 import blankShip from '@/js/nms/data/blankShip.json';
 import blankMultiTool from '@/js/nms/data/blankMultiTool.json';
 import expandedSlotIndicies from '@/js/nms/data/expandedSlotIndicies.json';
+import shipTech from '@/js/nms/data/shipTech.json';
+import shipBaseStats from '@/js/nms/data/shipBaseStats.json';
+import multitoolTech from '@/js/nms/data/multitoolTech.json';
+import multitoolBaseStats from '@/js/nms/data/multitoolBaseStats.json';
 import { randUniverseAddress, universeAddressToHex } from '@/js/nms/utils.js';
 import Base from '@/js/nms/Base.js';
 import defaultBase from '@/js/nms/data/defaultBase.json';
@@ -110,6 +114,42 @@ class SaveFile{
         this.PlayerStateData.ShipOwnership.forEach((ship) => {
             this.expandValidSlotIndices(ship.Inventory);
             this.expandValidSlotIndices(ship.Inventory_TechOnly);
+        });
+
+        return this;
+    }
+
+    upgradeShipTech(){
+        this.PlayerStateData.ShipOwnership.forEach((ship) => {
+            ship.Inventory_TechOnly.Slots = shipTech;
+            ship.Inventory.Slots = _.filter(ship.Inventory.Slots, function(s){
+                console.log(s)
+                return s.Type.InventoryType != "Technology";
+            });
+        });
+
+        return this;
+    }
+
+    upgradeShipStats(){
+        this.PlayerStateData.ShipOwnership.forEach((ship) => {
+            ship.Inventory.BaseStatValues = shipBaseStats;
+        });
+
+        return this;
+    }
+
+    upgradeMultitoolTech(){
+        this.PlayerStateData.Multitools.forEach((mt) => {
+            mt.Store.Slots = multitoolTech;
+        });
+
+        return this;
+    }
+
+    upgradeMultitoolStats(){
+        this.PlayerStateData.Multitools.forEach((mt) => {
+            mt.Store.Slots.BaseStatValues = multitoolBaseStats;
         });
 
         return this;

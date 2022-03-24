@@ -1,0 +1,14 @@
+[
+	{
+		"BaseStatID":"^WEAPON_DAMAGE",
+		"Value":1000.0
+	},
+	{
+		"BaseStatID":"^WEAPON_MINING",
+		"Value":1000.0
+	},
+	{
+		"BaseStatID":"^WEAPON_SCAN",
+		"Value":1000.0
+	}
+]

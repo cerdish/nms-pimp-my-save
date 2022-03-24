@@ -1,0 +1,14 @@
+[
+    {
+        "BaseStatID":"^SHIP_DAMAGE",
+        "Value":1000.0
+    },
+    {
+        "BaseStatID":"^SHIP_SHIELD",
+        "Value":1000.0
+    },
+    {
+        "BaseStatID":"^SHIP_HYPERDRIVE",
+        "Value":0.01
+    }
+]

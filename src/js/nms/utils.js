@@ -30,6 +30,7 @@ const universeAddressToHex = (universeAddress)=> {
     return "0x" + hex.toUpperCase();
 }
 
+//-900,10,1471 2048 - 3196
 const hexToUniverseAddress = (hex)=> {
     hex = hex.slice(-14);
 
@@ -37,9 +38,11 @@ const hexToUniverseAddress = (hex)=> {
     let y = parseInt(hex.slice(6, 8), 16);
     let z = parseInt(hex.slice(8, 11), 16);
 
+    console.log(x)
+
     if(y > 128) y = (256 - y) * -1;
-    if(x > 2048) x = (2048 - x) * -1;
-    if(z > 2048) z = (2048 - z) * -1;
+    if(x > 2048) x = (4096 - x) * -1;
+    if(z > 2048) z = (4096 - z) * -1;
 
     return {
         RealityIndex: parseInt(hex.slice(4, 6), 16),

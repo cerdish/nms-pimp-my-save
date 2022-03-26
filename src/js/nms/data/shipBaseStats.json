@@ -9,6 +9,6 @@
     },
     {
         "BaseStatID":"^SHIP_HYPERDRIVE",
-        "Value":0.01
+        "Value":1000.0
     }
 ]

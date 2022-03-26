@@ -26,33 +26,24 @@
         }
 
         if(upgrades.value.ships){
-            save.expandShips().upgradeShipTech();
+            save.expandShips().upgradeShipTech().upgradeShipStats();
         }
 
         if(upgrades.value.exosuit){
-            save.expandSuit();
+            save.expandSuit().upgradeSuit();
         }
 
         if(upgrades.value.multitools){
-            save.expandMultitools().upgradeMultitoolTech();
+            save.expandMultitools().upgradeMultitoolTech().upgradeMultitoolStats();
         }
 
         if(upgrades.value.location) save.randomizeLocation();
 
-        for(let i = -127; i < 128; i++){
-            let ua = JSON.parse(JSON.stringify(save.PlayerStateData.UniverseAddress));
+        if(upgrades.value.buildKnowledge) save.addAllProducts();
 
-            ua.RealityIndex = 0;
-            ua.GalacticAddress.SolarSystemIndex = 1;
-            ua.GalacticAddress.VoxelX = 1;
-            ua.GalacticAddress.VoxelY = i;
-            ua.GalacticAddress.VoxelZ = 1;
+        if(upgrades.value.techKnowledge) save.addAllTech();
 
-            save.addBase(ua, "base" + i);
-
-            save.PlayerStateData.UniverseAddress = ua;
-        }
-
+        if(upgrades.value.languageKnowledge) save.addAllWords();
 
         var blob = new Blob([JSON.stringify(save, null, 2)], {type: "application/json;charset=utf-8"});
         
@@ -79,7 +70,7 @@
             </p>
         </div>
         {{hexToUniverseAddress("0x1FFB0001001001")}}
-        {{hexToUniverseAddress("0x20B0000A5BFC7C")}}
+        <br>
 
         <form @submit.prevent="pimpMySave(inputJson)">
             <base-input v-model="inputJson" :stacked="true" type="textarea">Paste your save file JSON below</base-input>

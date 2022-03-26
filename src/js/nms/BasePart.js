@@ -49,7 +49,10 @@ class BasePart extends THREE.Object3D{
             this.scale.set(1, 1, scale);
         }else{
             this.scale.set(scale, scale, scale);
+            this.up.normalize().multiplyScalar(scale);
         }
+        
+        this.at.normalize().multiplyScalar(scale);
 
         return this;
     }

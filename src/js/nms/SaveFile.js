@@ -9,6 +9,12 @@ import multitoolBaseStats from '@/js/nms/data/multitoolBaseStats.json';
 import { randUniverseAddress, universeAddressToHex } from '@/js/nms/utils.js';
 import Base from '@/js/nms/Base.js';
 import defaultBase from '@/js/nms/data/defaultBase.json';
+import allTech from '@/js/nms/data/allTech.json';
+import allProducts from '@/js/nms/data/allProducts.json';
+import allWordGroups from '@/js/nms/data/allWordGroups.json';
+import exosuitInventory from '@/js/nms/data/exosuitInventory.json';
+import exosuitTech from '@/js/nms/data/exosuitTech.json';
+import exosuitCargo from '@/js/nms/data/exosuitCargo.json';
 
 class SaveFile{
     constructor(json){
@@ -133,7 +139,7 @@ class SaveFile{
 
     upgradeShipStats(){
         this.PlayerStateData.ShipOwnership.forEach((ship) => {
-            ship.Inventory.BaseStatValues = shipBaseStats;
+            ship.Inventory_TechOnly.BaseStatValues = shipBaseStats;
         });
 
         return this;
@@ -149,7 +155,7 @@ class SaveFile{
 
     upgradeMultitoolStats(){
         this.PlayerStateData.Multitools.forEach((mt) => {
-            mt.Store.Slots.BaseStatValues = multitoolBaseStats;
+            mt.Store.BaseStatValues = multitoolBaseStats;
         });
 
         return this;
@@ -164,14 +170,48 @@ class SaveFile{
         return this;
     }
 
-    addBase(ua, name){
+    addGhostBase(ua, name){
         let base = new Base().fromJson(JSON.stringify(defaultBase)).clear();
 
-        base.setGalacticAddress(universeAddressToHex(ua)).setName(name);
+        base.setGalacticAddress(universeAddressToHex(ua)).setName("gb-" + name);
 
-        base.addParts([base.createPart("^BASE_FLAG").setPosition([1, 1, 1])]);
+        base.addParts([base.createPart("^BASE_FLAG").setPosition([1, 1, 1]), base.createPart("^T_FLOOR").setPosition([1, 0.5, 1]).setScale(5), base.createPart("^TELEPORTER").setPosition([5.33333, 1, 1])]);
         
         this.PlayerStateData.PersistentPlayerBases.push(JSON.parse(base.toJson()));
+
+        return this;
+    }
+
+    removeGhostBases(){
+        this.PlayerStateData.PersistentPlayerBases = _.filter(this.PlayerStateData.PersistentPlayerBases, function(b){
+            return b.Name.indexOf("gb-") > -1;
+        });
+
+        return this;
+    }
+
+    addAllTech(){
+        this.PlayerStateData.KnownProducts = allTech;
+
+        return this;
+    }
+    
+    addAllProducts(){
+        this.PlayerStateData.KnownProducts = allProducts;
+
+        return this;
+    }
+    
+    addAllWords(){
+        this.PlayerStateData.KnownWordGroups = allWordGroups;
+
+        return this;
+    }
+
+    upgradeSuit(){
+        this.PlayerStateData.Inventory.Slots = exosuitInventory;
+        this.PlayerStateData.Inventory_TechOnly.Slots = exosuitTech;
+        this.PlayerStateData.Inventory_Cargo.Slots = exosuitCargo;
 
         return this;
     }

@@ -10,6 +10,6 @@
             </button>
         </div>
 
-        <h1 class="item-grow padding">Pimp My Save</h1>
+        <h1 class="item-grow padding">PMP</h1>
     </div>
 </template>

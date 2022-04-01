@@ -86,7 +86,7 @@
                 </li>
 
                 <li>
-                    No Story - All game mechanics are unlocked, but story missions or tutorials will be available. Only your knownledge of standard game mechanics can advance your character.
+                    No Story - All game mechanics are unlocked and no story missions or tutorials will be available. Only your knownledge of standard game mechanics can advance your character.
                 </li>
             </ul>
         </div>

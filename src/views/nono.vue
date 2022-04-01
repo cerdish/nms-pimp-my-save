@@ -3,7 +3,7 @@
     import defaultSave from '@/js/nms/data/defaultSave.json';
     import defaultBase from '@/js/nms/data/defaultBase.json';
     import * as _ from 'lodash';
-    import {saveAs} from 'file-saver'
+    import {saveAs} from 'file-saver';
     import {randUniverseAddress, universeAddressToHex} from '@/js/nms/utils.js';
     import Base from '@/js/nms/Base.js';
     import SaveFile from '@/js/nms/SaveFile.js';

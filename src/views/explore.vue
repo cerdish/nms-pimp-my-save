@@ -2,28 +2,38 @@
     import { ref } from 'vue';
     import SaveFile from '@/js/nms/SaveFile'
     import defaultSave from '@/js/nms/data/defaultSave.json'
-    import { hexToUniverseAddress, randUniverseAddress } from '@/js/nms/utils.js';
+    import { hexToUniverseAddress, randUniverseAddress, universeAddressToHex } from '@/js/nms/utils.js';
+    import {saveAs} from 'file-saver'
 
     const inputJson = ref("");
+
+    const initialAddress = ref(randUniverseAddress());
+
+    const stepSizes = ref({
+        PlanetIndex:0,
+        SolarSystemIndex:1,
+        RealityIndex:0,
+        VoxelY:0,
+        VoxelZ:0,
+        VoxelX:0
+    })
+
+    const systemCount = ref(128);
 
     const transformSave = (json)=> {
         let save = new SaveFile(json);
 
-        for(let i = -127; i < 128; i++){
-            let ua = JSON.parse(JSON.stringify(save.PlayerStateData.UniverseAddress));
+        let ua = initialAddress.value;
 
-            ua.RealityIndex = 0;
-            ua.GalacticAddress.SolarSystemIndex = Math.round(Math.random() * 64);
-            ua.GalacticAddress.VoxelX = Math.round(Math.random() * 1024);
-            ua.GalacticAddress.VoxelY = i;
-            ua.GalacticAddress.VoxelZ = Math.round(Math.random() * 128);
+        for(let i = 0; i < systemCount.value; i++){
+            ua.GalacticAddress.PlanetIndex = parseInt(ua.GalacticAddress.PlanetIndex) + stepSizes.value.PlanetIndex;
+            ua.GalacticAddress.SolarSystemIndex = parseInt(ua.GalacticAddress.SolarSystemIndex) + stepSizes.value.SolarSystemIndex;
+            ua.RealityIndex = parseInt(ua.RealityIndex) + stepSizes.value.RealityIndex;
+            ua.GalacticAddress.VoxelY = parseInt(ua.GalacticAddress.VoxelY) + stepSizes.value.VoxelY;
+            ua.GalacticAddress.VoxelZ = parseInt(ua.GalacticAddress.VoxelZ) + stepSizes.value.VoxelZ;
+            ua.GalacticAddress.VoxelX = parseInt(ua.GalacticAddress.VoxelX) + stepSizes.value.VoxelX;
 
-            for(let j = 1; j < 4; j++){
-                ua.GalacticAddress.PlanetIndex = j;
-                
-                save.addGhostBase(ua, ua.GalacticAddress.PlanetIndex + "," + ua.RealityIndex + "," + ua.GalacticAddress.SolarSystemIndex + "," + ua.GalacticAddress.VoxelX + "," + ua.GalacticAddress.VoxelY + "," + ua.GalacticAddress.VoxelZ );
-            }
-
+            save.addGhostBase(ua, ua.GalacticAddress.PlanetIndex + "," + ua.RealityIndex + "," + ua.GalacticAddress.SolarSystemIndex + "," + ua.GalacticAddress.VoxelX + "," + ua.GalacticAddress.VoxelY + "," + ua.GalacticAddress.VoxelZ );
 
             save.PlayerStateData.UniverseAddress = ua;
         }
@@ -52,6 +62,10 @@
 
         return transformSave(JSON.stringify(save));
     }
+
+    const randomizeInitialAddress = () => {
+        initialAddress.value = randUniverseAddress();
+    }
 </script>
 
 <template>
@@ -63,14 +77,48 @@
             </p>
         </div>
 
+        <!---
         {{hexToUniverseAddress("0x20B0000A5BFC7C")}}
         <br>
         {{hexToUniverseAddress("0x30B100F35CBC63")}}
         <br>
         {{hexToUniverseAddress("0x520E00F35CAC62")}}
-
+        --->
+        
         <form @submit.prevent="transformSave(inputJson)">
             <base-input v-model="inputJson" :stacked="true" type="textarea">Paste your save file JSON below</base-input>
+
+            <base-input v-model="systemCount">
+                systemCount
+                <template v-slot:note>How many systems the script will put bases in</template>
+            </base-input>
+
+            <h3>Initial Address</h3>
+            <p>Step size indicates how much is added to the value after each iteration of the loop.</p>
+
+            <div class="flex">
+                <div>
+                    <base-input v-model="initialAddress.GalacticAddress.PlanetIndex">PlanetIndex</base-input>
+                    <base-input v-model="initialAddress.GalacticAddress.SolarSystemIndex">SolarSystemIndex</base-input>
+                    <base-input v-model="initialAddress.RealityIndex">RealityIndex</base-input>
+                    <base-input v-model="initialAddress.GalacticAddress.VoxelY">VoxelY</base-input>
+                    <base-input v-model="initialAddress.GalacticAddress.VoxelZ">VoxelZ</base-input>
+                    <base-input v-model="initialAddress.GalacticAddress.VoxelX">VoxelZ</base-input>
+                </div>
+
+                <div>
+                    <base-input v-model="stepSizes.PlanetIndex" label-width="80px">step size</base-input>
+                    <base-input v-model="stepSizes.SolarSystemIndex" label-width="80px">step size</base-input>
+                    <base-input v-model="stepSizes.RealityIndex" label-width="80px">step size</base-input>
+                    <base-input v-model="stepSizes.VoxelY" label-width="80px">step size</base-input>
+                    <base-input v-model="stepSizes.VoxelZ" label-width="80px">step size</base-input>
+                    <base-input v-model="stepSizes.VoxelX" label-width="80px">step size</base-input>
+                </div>
+            </div>
+
+            <div class="smaller">
+                <button type="button" @click="randomizeInitialAddress()">Randomize initial address</button>
+            </div>
             
             <div>
                 <button>Modify Save</button>

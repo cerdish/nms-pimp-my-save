@@ -6,7 +6,7 @@
 
     const toggleMenu = () => {
         showMenu.value = !showMenu.value;
-        console.log(showMenu)
+        //console.log(showMenu)
     }
 </script>
 

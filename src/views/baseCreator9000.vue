@@ -46,7 +46,7 @@
     onMounted(() => {
         const resizeObserver = new ResizeObserver(entries => {
             for (let entry of entries) {
-                console.log(entry);
+                //console.log(entry);
 
                 renderer.setSize(entry.target.clientWidth, entry.target.clientHeight);
 

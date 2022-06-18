@@ -109,7 +109,7 @@ class SaveFile{
 
     expandMultitools(){        
         this.PlayerStateData.Multitools.forEach((mt) => {
-            console.log(mt)
+            //console.log(mt)
             this.expandValidSlotIndices(mt.Store);
         });
 
@@ -129,7 +129,7 @@ class SaveFile{
         this.PlayerStateData.ShipOwnership.forEach((ship) => {
             ship.Inventory_TechOnly.Slots = shipTech;
             ship.Inventory.Slots = _.filter(ship.Inventory.Slots, function(s){
-                console.log(s)
+                //console.log(s)
                 return s.Type.InventoryType != "Technology";
             });
         });
@@ -175,7 +175,7 @@ class SaveFile{
 
         base.setGalacticAddress(universeAddressToHex(ua)).setName("gb-" + name);
 
-        base.addParts([base.createPart("^BASE_FLAG").setPosition([1, 1, 1]), base.createPart("^T_FLOOR").setPosition([1, 0.5, 1]).setScale(5), base.createPart("^TELEPORTER").setPosition([5.33333, 1, 1])]);
+        base.addParts([base.createPart("^BASE_FLAG").setPosition([1, 1, 1]), base.createPart("^BUILDLANDINGPAD").setPosition([1, 0.1, 1]), base.createPart("^TELEPORTER").setPosition([10, 1, 1])]);
         
         this.PlayerStateData.PersistentPlayerBases.push(JSON.parse(base.toJson()));
 

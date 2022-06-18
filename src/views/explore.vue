@@ -7,7 +7,11 @@
 
     const inputJson = ref("");
 
-    const initialAddress = ref(randUniverseAddress());
+    const adddressListJson = ref("");
+
+    //const initialAddress = ref(randUniverseAddress());
+    const initialAddress = ref(hexToUniverseAddress("0x520E00F35CAC62"));
+
 
     const stepSizes = ref({
         PlanetIndex:0,
@@ -25,17 +29,29 @@
 
         let ua = initialAddress.value;
 
-        for(let i = 0; i < systemCount.value; i++){
-            ua.GalacticAddress.PlanetIndex = parseInt(ua.GalacticAddress.PlanetIndex) + stepSizes.value.PlanetIndex;
-            ua.GalacticAddress.SolarSystemIndex = parseInt(ua.GalacticAddress.SolarSystemIndex) + stepSizes.value.SolarSystemIndex;
-            ua.RealityIndex = parseInt(ua.RealityIndex) + stepSizes.value.RealityIndex;
-            ua.GalacticAddress.VoxelY = parseInt(ua.GalacticAddress.VoxelY) + stepSizes.value.VoxelY;
-            ua.GalacticAddress.VoxelZ = parseInt(ua.GalacticAddress.VoxelZ) + stepSizes.value.VoxelZ;
-            ua.GalacticAddress.VoxelX = parseInt(ua.GalacticAddress.VoxelX) + stepSizes.value.VoxelX;
+        //console.log(adddressListJson.value)
 
-            save.addGhostBase(ua, ua.GalacticAddress.PlanetIndex + "," + ua.RealityIndex + "," + ua.GalacticAddress.SolarSystemIndex + "," + ua.GalacticAddress.VoxelX + "," + ua.GalacticAddress.VoxelY + "," + ua.GalacticAddress.VoxelZ );
+        if(adddressListJson.value){
+            let addresses = JSON.parse(adddressListJson.value);
 
-            save.PlayerStateData.UniverseAddress = ua;
+            addresses.forEach(function(a){
+                save.addGhostBase(hexToUniverseAddress(a), a);
+            });
+        }else{
+            for(let i = 0; i < systemCount.value; i++){
+                let tempUa = JSON.parse(JSON.stringify(ua));
+
+                tempUa.GalacticAddress.PlanetIndex = parseInt(ua.GalacticAddress.PlanetIndex) + (stepSizes.value.PlanetIndex * i);
+                tempUa.GalacticAddress.SolarSystemIndex = parseInt(ua.GalacticAddress.SolarSystemIndex) + (stepSizes.value.SolarSystemIndex * i);
+                tempUa.RealityIndex = parseInt(ua.RealityIndex) + (stepSizes.value.RealityIndex * i);
+                tempUa.GalacticAddress.VoxelY = parseInt(ua.GalacticAddress.VoxelY) + (stepSizes.value.VoxelY * i);
+                tempUa.GalacticAddress.VoxelZ = parseInt(ua.GalacticAddress.VoxelZ) + (stepSizes.value.VoxelZ * i);
+                tempUa.GalacticAddress.VoxelX = parseInt(ua.GalacticAddress.VoxelX) + (stepSizes.value.VoxelX * i);
+    
+                save.addGhostBase(tempUa, tempUa.GalacticAddress.PlanetIndex + "," + tempUa.RealityIndex + "," + tempUa.GalacticAddress.SolarSystemIndex + "," + tempUa.GalacticAddress.VoxelX + "," + tempUa.GalacticAddress.VoxelY + "," + tempUa.GalacticAddress.VoxelZ );
+    
+                save.PlayerStateData.UniverseAddress = tempUa;
+            }
         }
 
         save.PlayerStateData.KnownProducts.push("^U_SOLAR_S");
@@ -84,9 +100,14 @@
         <br>
         {{hexToUniverseAddress("0x520E00F35CAC62")}}
         --->
+
+        {{hexToUniverseAddress("0x411500F35CBC63")}}
+        {{hexToUniverseAddress("0x511500F35CBC63")}}
         
         <form @submit.prevent="transformSave(inputJson)">
             <base-input v-model="inputJson" :stacked="true" type="textarea">Paste your save file JSON below</base-input>
+            
+            <base-input v-model="adddressListJson" :stacked="true" type="textarea">JSON Array of planets to add bases to</base-input>
 
             <base-input v-model="systemCount">
                 systemCount
@@ -103,7 +124,7 @@
                     <base-input v-model="initialAddress.RealityIndex">RealityIndex</base-input>
                     <base-input v-model="initialAddress.GalacticAddress.VoxelY">VoxelY</base-input>
                     <base-input v-model="initialAddress.GalacticAddress.VoxelZ">VoxelZ</base-input>
-                    <base-input v-model="initialAddress.GalacticAddress.VoxelX">VoxelZ</base-input>
+                    <base-input v-model="initialAddress.GalacticAddress.VoxelX">VoxelX</base-input>
                 </div>
 
                 <div>

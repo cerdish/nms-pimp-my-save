@@ -38,7 +38,7 @@ const hexToUniverseAddress = (hex)=> {
     let y = parseInt(hex.slice(6, 8), 16);
     let z = parseInt(hex.slice(8, 11), 16);
 
-    console.log(x)
+    //console.log(x)
 
     if(y > 128) y = (256 - y) * -1;
     if(x > 2048) x = (4096 - x) * -1;

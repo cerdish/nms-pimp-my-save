@@ -69,7 +69,7 @@
                 Start off your No Man's Sky playthrough like a pimp. Know all tech, own a pimp ship, own a pimp multitool, and skip out on the story grind. Time to start exploring...like a pimp.
             </p>
         </div>
-        <!---{{hexToUniverseAddress("0x1FFB0001001001")}}--->
+        {{hexToUniverseAddress("0x1FFB0001001001")}}
         <br>
 
         <form @submit.prevent="pimpMySave(inputJson)">

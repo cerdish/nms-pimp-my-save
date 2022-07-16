@@ -54,6 +54,7 @@
             }
         }
 
+        save.PlayerStateData.KnownProducts.push("^TELEPORTER");
         save.PlayerStateData.KnownProducts.push("^U_SOLAR_S");
         save.PlayerStateData.KnownProducts.push("^U_BIOGENERATOR");
         save.PlayerStateData.KnownProducts.push("^U_BATTERY_S");

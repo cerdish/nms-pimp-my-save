@@ -10,7 +10,7 @@
     const adddressListJson = ref("");
 
     //const initialAddress = ref(randUniverseAddress());
-    const initialAddress = ref(hexToUniverseAddress("0x520E00F35CAC62"));
+    const initialAddress = ref(hexToUniverseAddress("0x30B100F35CBC63"));
 
 
     const stepSizes = ref({
@@ -100,10 +100,10 @@
         {{hexToUniverseAddress("0x30B100F35CBC63")}}
         <br>
         {{hexToUniverseAddress("0x520E00F35CAC62")}}
-        --->
-
         {{hexToUniverseAddress("0x411500F35CBC63")}}
         {{hexToUniverseAddress("0x511500F35CBC63")}}
+        --->
+
         
         <form @submit.prevent="transformSave(inputJson)">
             <base-input v-model="inputJson" :stacked="true" type="textarea">Paste your save file JSON below</base-input>

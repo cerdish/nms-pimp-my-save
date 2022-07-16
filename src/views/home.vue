@@ -88,7 +88,7 @@
                 <base-checkbox v-model="upgrades.missions">story progress</base-checkbox>   
             </div>
 
-            <base-checkbox v-model="upgrades.missions">Randomize location (universe, system, planet)</base-checkbox>   
+            <base-checkbox v-model="upgrades.location">Randomize location (universe, system, planet)</base-checkbox>   
 
             <div>
                 <button>Pimp My Save</button>

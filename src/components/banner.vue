@@ -10,6 +10,6 @@
             </button>
         </div>
 
-        <h1 class="item-grow padding">PMP</h1>
+        <h1 class="item-grow padding">PMP v0.0.1</h1>
     </div>
 </template>
